@@ -1,0 +1,6 @@
+# Ignorar la carpeta db/
+db/
+
+# Ignorar archivos compilados
+*.class
+*.jar
