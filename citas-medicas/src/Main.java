@@ -1,8 +1,11 @@
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Main {
     private static List<Doctor> doctores = new ArrayList<>();
     private static List<Paciente> pacientes = new ArrayList<>();
+    private static List<Cita> citas = new ArrayList<>();
     private static Admin admin = new Admin("admin", "password");
 
     public static void main(String[] args) {
@@ -34,6 +37,8 @@ public class Main {
             switch (opcion) {
                 case 1 -> registrarDoctor(scanner);
                 case 2 -> registrarPaciente(scanner);
+                case 3 -> crearCita(scanner);
+                case 4 -> relacionarCita(scanner);
                 case 5 -> System.out.println("Saliendo del sistema...");
                 default -> System.out.println("Opción inválida. Intente de nuevo.");
             }
@@ -42,6 +47,7 @@ public class Main {
         // Guardar datos antes de salir
         FileManager.guardarDatos("db/doctores.txt", doctores);
         FileManager.guardarDatos("db/pacientes.txt", pacientes);
+        FileManager.guardarDatos("db/citas.txt", citas);
     }
 
     private static void registrarDoctor(Scanner scanner) {
@@ -55,7 +61,7 @@ public class Main {
         doctores.add(new Doctor(id, nombreCompleto, especialidad));
         System.out.println("Doctor registrado exitosamente.");
     }
-    
+
     private static void registrarPaciente(Scanner scanner) {
         System.out.print("ID del paciente: ");
         String id = scanner.nextLine();
@@ -66,6 +72,45 @@ public class Main {
         System.out.println("Paciente registrado exitosamente.");
     }
 
+    private static void crearCita(Scanner scanner) {
+        System.out.print("ID de la cita: ");
+        String id = scanner.nextLine();
+        System.out.print("Fecha y hora (yyyy-MM-dd HH:mm): ");
+        String fechaHoraStr = scanner.nextLine();
+        LocalDateTime fechaHora = LocalDateTime.parse(fechaHoraStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        System.out.print("Motivo: ");
+        String motivo = scanner.nextLine();
+
+        citas.add(new Cita(id, fechaHora, motivo, "", ""));
+        System.out.println("Cita creada exitosamente.");
+    }
+
+    private static void relacionarCita(Scanner scanner) {
+        System.out.print("ID de la cita: ");
+        String idCita = scanner.nextLine();
+        System.out.print("ID del doctor: ");
+        String idDoctor = scanner.nextLine();
+        System.out.print("ID del paciente: ");
+        String idPaciente = scanner.nextLine();
+
+        Cita cita = buscarCitaPorId(idCita);
+        if (cita == null) {
+            System.out.println("Cita no encontrada.");
+            return;
+        }
+
+        cita = new Cita(cita.getId(), cita.getFechaHora(), cita.getMotivo(), idDoctor, idPaciente);
+        System.out.println("Cita relacionada exitosamente.");
+    }
+
+    private static Cita buscarCitaPorId(String id) {
+        for (Cita cita : citas) {
+            if (cita.getId().equals(id)) {
+                return cita;
+            }
+        }
+        return null;
+    }
 }
 
 
