@@ -41,6 +41,7 @@ public class Main {
 
         // Guardar datos antes de salir
         FileManager.guardarDatos("db/doctores.txt", doctores);
+        FileManager.guardarDatos("db/pacientes.txt", pacientes);
     }
 
     private static void registrarDoctor(Scanner scanner) {
