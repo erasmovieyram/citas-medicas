@@ -1,6 +1,8 @@
 import java.util.*;
 
 public class Main {
+    private static List<Doctor> doctores = new ArrayList<>();
+    private static List<Paciente> pacientes = new ArrayList<>();
     private static Admin admin = new Admin("admin", "password");
 
     public static void main(String[] args) {
@@ -28,7 +30,41 @@ public class Main {
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
             scanner.nextLine(); // Limpiar buffer
-        }while (opcion != 5);
+
+            switch (opcion) {
+                case 1 -> registrarDoctor(scanner);
+                case 2 -> registrarPaciente(scanner);
+                case 5 -> System.out.println("Saliendo del sistema...");
+                default -> System.out.println("Opción inválida. Intente de nuevo.");
+            }
+        } while (opcion != 5);
+
+        // Guardar datos antes de salir
+        FileManager.guardarDatos("db/doctores.txt", doctores);
     }
+
+    private static void registrarDoctor(Scanner scanner) {
+        System.out.print("ID del doctor: ");
+        String id = scanner.nextLine();
+        System.out.print("Nombre completo: ");
+        String nombreCompleto = scanner.nextLine();
+        System.out.print("Especialidad: ");
+        String especialidad = scanner.nextLine();
+
+        doctores.add(new Doctor(id, nombreCompleto, especialidad));
+        System.out.println("Doctor registrado exitosamente.");
+    }
+    
+    private static void registrarPaciente(Scanner scanner) {
+        System.out.print("ID del paciente: ");
+        String id = scanner.nextLine();
+        System.out.print("Nombre completo: ");
+        String nombreCompleto = scanner.nextLine();
+
+        pacientes.add(new Paciente(id, nombreCompleto));
+        System.out.println("Paciente registrado exitosamente.");
+    }
+
 }
+
 
