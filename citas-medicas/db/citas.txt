@@ -1,0 +1,1 @@
+Cita{id='001', fechaHora=2025-02-12T13:20, motivo='Revisión de rutina', idDoctor='', idPaciente=''}

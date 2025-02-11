@@ -1,0 +1,1 @@
+Paciente{id='001', nombreCompleto='Rosa Isela Rojas'}
